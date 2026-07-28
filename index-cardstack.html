@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khushi Panchani</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-dark:#332D26;
+    --card:#F4E9D8;
+    --ink:#332D26;
+    --ink-soft:#7A6E5D;
+    --tan:#C6A177;
+    --rose:#C99BA0;
+    --line:#E4D3B8;
+    --cream:#F7EFE1;
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(198,161,119,0.18), transparent 42%),
+      radial-gradient(circle at 84% 88%, rgba(201,155,160,0.20), transparent 45%),
+      var(--bg-dark);
+    font-family:'Inter', sans-serif;
+    color:var(--ink);
+    padding:48px 18px;
+  }
+
+  .stage{
+    position:relative;
+    width:100%;
+    max-width:380px;
+    animation:rise 0.7s cubic-bezier(.19,1,.22,1) both;
+  }
+  @keyframes rise{
+    from{opacity:0; transform:translateY(14px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .card{
+    position:relative;
+    width:100%;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:22px;
+    box-shadow:
+      0 1px 1px rgba(0,0,0,0.15),
+      0 30px 60px -20px rgba(0,0,0,0.55),
+      0 0 0 1px rgba(198,161,119,0.10),
+      0 0 80px -10px rgba(198,161,119,0.20);
+    padding:40px 32px 34px;
+    z-index:1;
+    transform:translateY(0);
+    transition:transform .6s cubic-bezier(.22,1,.36,1), box-shadow .6s ease;
+    overflow:visible;
+  }
+
+  .badge{
+    position:absolute;
+    top:22px;
+    right:22px;
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:var(--bg-dark);
+    color:var(--tan);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.02em;
+  }
+
+  .notch{
+    position:absolute;
+    top:-1px;
+    left:50%;
+    transform:translateX(-50%);
+    width:64px;
+    height:22px;
+    background:var(--bg-dark);
+    border:1px solid var(--line);
+    border-top:none;
+    border-radius:0 0 14px 14px;
+  }
+  .notch::after{
+    content:"";
+    position:absolute;
+    top:6px;
+    left:50%;
+    transform:translateX(-50%);
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--card);
+    box-shadow:inset 0 1px 2px rgba(51,45,38,0.35);
+  }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:0.16em;
+    color:var(--tan);
+    text-transform:uppercase;
+    margin:14px 0 16px;
+    text-align:center;
+  }
+
+  h1{
+    font-family:'Libre Baskerville', serif;
+    font-weight:700;
+    font-size:27px;
+    line-height:1.2;
+    text-align:center;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+
+  .tagline{
+    text-align:center;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin:0 0 26px;
+    line-height:1.5;
+  }
+
+  .divider{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:0 0 6px;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background:var(--line);
+  }
+  .divider span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.14em;
+    color:var(--tan);
+    text-transform:uppercase;
+  }
+
+  /* ---------------- credit-card stack ---------------- */
+  .stack{
+    position:relative;
+    margin-top:38px;
+    /* height = tallest resting offset + one card height, set by JS-free CSS via padding trick below */
+    padding-bottom:264px;
+  }
+
+  .linkcard{
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    aspect-ratio:1.586 / 1;
+    border-radius:16px;
+    padding:18px 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    text-decoration:none;
+    overflow:hidden;
+    transform-origin:50% 100%;
+    box-shadow:
+      0 10px 18px -10px rgba(51,45,38,0.35),
+      0 2px 4px -1px rgba(51,45,38,0.22);
+    transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s cubic-bezier(.22,1,.36,1);
+  }
+  .linkcard::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(115deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, rgba(255,255,255,0.10) 100%);
+    pointer-events:none;
+  }
+
+  .linkcard:nth-child(1){ top:0px;   transform:rotate(-2deg); z-index:3; }
+  .linkcard:nth-child(2){ top:34px;  transform:rotate(1.5deg); z-index:2; }
+  .linkcard:nth-child(3){ top:68px;  transform:rotate(3.5deg); z-index:1; }
+
+  .linkcard:hover,
+  .linkcard.popped{
+    transform:translateY(-46px) rotate(0deg) scale(1.045) !important;
+    z-index:10 !important;
+    box-shadow:
+      0 26px 34px -14px rgba(51,45,38,0.45),
+      0 8px 14px -6px rgba(51,45,38,0.30);
+  }
+
+  .lc-resume{ background:linear-gradient(135deg, #3E3830, #221D18); color:var(--cream); }
+  .lc-email{ background:linear-gradient(135deg, #F7EFE1, #E2CDA6); color:var(--ink); }
+  .lc-linkedin{ background:linear-gradient(135deg, #D2A8AD, #B37E85); color:var(--cream); }
+
+  .lc-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:flex-end;
+  }
+
+  .lc-icon{
+    width:22px;
+    height:22px;
+    opacity:0.9;
+    flex-shrink:0;
+  }
+  .lc-icon svg{ width:100%; height:100%; display:block; }
+
+  .lc-mid{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .lc-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    opacity:0.65;
+  }
+  .lc-value{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13.5px;
+    letter-spacing:0.01em;
+    font-weight:500;
+    line-height:1.35;
+    word-break:break-word;
+  }
+
+  .lc-bottom{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+  }
+  .lc-name{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    opacity:0.75;
+  }
+  .lc-arrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    opacity:0.85;
+  }
+
+  footer{
+    margin-top:12px;
+    padding-top:16px;
+    border-top:1px dashed var(--line);
+    text-align:center;
+  }
+  footer .school{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.12em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+
+  .veil{
+    position:absolute;
+    left:0;
+    right:0;
+    top:190px;
+    bottom:0;
+    z-index:5;
+    background:var(--bg-dark);
+    border-radius:0 0 22px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-end;
+    gap:10px;
+    padding-bottom:24px;
+    cursor:pointer;
+    transition:transform .6s cubic-bezier(.22,1,.36,1), opacity .45s ease;
+  }
+  .veil .grommets{
+    display:flex;
+    gap:10px;
+    margin-bottom:auto;
+    margin-top:26px;
+  }
+  .veil .grommets span{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    border:1.4px solid rgba(244,233,216,0.35);
+  }
+  .veil .hint{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.10em;
+    text-transform:uppercase;
+    color:var(--card);
+    opacity:0.75;
+    text-align:center;
+    line-height:1.6;
+  }
+  .veil .chevron{
+    color:var(--tan);
+    font-size:15px;
+    animation:nudge 1.8s ease-in-out infinite;
+  }
+  @keyframes nudge{
+    0%,100%{ transform:translateY(0); opacity:0.6; }
+    50%{ transform:translateY(-5px); opacity:1; }
+  }
+
+  @media (hover:hover){
+    .stage:hover .card{
+      transform:translateY(-22px);
+      box-shadow:
+        0 1px 1px rgba(0,0,0,0.15),
+        0 40px 70px -18px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(198,161,119,0.10),
+        0 0 90px -6px rgba(198,161,119,0.28);
+    }
+    .stage:hover .veil{ transform:translateY(100%); opacity:0; }
+  }
+  .stage.open .card{ transform:translateY(-22px); }
+  .stage.open .veil{ transform:translateY(100%); opacity:0; pointer-events:none; }
+
+  @media (prefers-reduced-motion: reduce){
+    .stage{ animation:none; }
+    .card, .veil, .linkcard{ transition:none; }
+    .veil .chevron{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="stage" id="stage">
+    <div class="card">
+      <div class="notch"></div>
+      <div class="badge">KP</div>
+      <div class="identity">
+        <div class="eyebrow">Digital Contact Card</div>
+        <h1>Khushi Panchani</h1>
+        <p class="tagline">Computer Science Student<br>North Carolina State University</p>
+      </div>
+
+      <div class="divider"><span>Connect</span></div>
+
+      <div class="stack">
+        <a class="linkcard lc-resume" href="Khushi_Panchani_Resume.pdf" target="_blank" rel="noopener">
+          <div class="lc-top">
+            <span class="lc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 2.75h7.2L18 6.55V21a.75.75 0 0 1-.75.75H7A.75.75 0 0 1 6.25 21V3.5A.75.75 0 0 1 7 2.75Z"/>
+                <path d="M14.2 2.75V6.5a.5.5 0 0 0 .5.5h3.3"/>
+                <path d="M9 12h6M9 15.3h6M9 8.7h2.5"/>
+              </svg>
+            </span>
+          </div>
+          <div class="lc-mid">
+            <span class="lc-label">Resume</span>
+            <span class="lc-value">View / Download PDF</span>
+          </div>
+          <div class="lc-bottom">
+            <span class="lc-name">Khushi Panchani</span>
+            <span class="lc-arrow">&#8594;</span>
+          </div>
+        </a>
+
+        <a class="linkcard lc-email" href="mailto:Khushi.panchani47@gmail.com">
+          <div class="lc-top">
+            <span class="lc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.75" y="5.25" width="18.5" height="13.5" rx="1.5"/>
+                <path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>
+              </svg>
+            </span>
+          </div>
+          <div class="lc-mid">
+            <span class="lc-label">Email</span>
+            <span class="lc-value">Khushi.panchani47@gmail.com</span>
+          </div>
+          <div class="lc-bottom">
+            <span class="lc-name">Khushi Panchani</span>
+            <span class="lc-arrow">&#8594;</span>
+          </div>
+        </a>
+
+        <a class="linkcard lc-linkedin" href="https://www.linkedin.com/in/kpancha/" target="_blank" rel="noopener">
+          <div class="lc-top">
+            <span class="lc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="4"/>
+                <circle cx="8.3" cy="8.3" r="0.9" fill="currentColor" stroke="none"/>
+                <path d="M8.3 11v6.2"/>
+                <path d="M12.6 17.2V13c0-1.1.8-2 2-2s2 .9 2 2v4.2"/>
+                <path d="M12.6 13.2v4"/>
+              </svg>
+            </span>
+          </div>
+          <div class="lc-mid">
+            <span class="lc-label">LinkedIn</span>
+            <span class="lc-value">linkedin.com/in/kpancha</span>
+          </div>
+          <div class="lc-bottom">
+            <span class="lc-name">Khushi Panchani</span>
+            <span class="lc-arrow">&#8594;</span>
+          </div>
+        </a>
+      </div>
+
+      <footer>
+        <div class="school">B.S. Computer Science · Class of 2026</div>
+      </footer>
+    </div>
+
+    <div class="veil" id="veil">
+      <div class="grommets"><span></span><span></span></div>
+      <div class="chevron">&#8593;</div>
+      <div class="hint">Tap or hover<br>to view contact</div>
+    </div>
+  </div>
+
+  <script>
+    var stage = document.getElementById('stage');
+    var veil = document.getElementById('veil');
+    var identity = document.querySelector('.identity');
+
+    function positionVeil(){
+      veil.style.top = identity.offsetTop + identity.offsetHeight + 'px';
+    }
+    positionVeil();
+    window.addEventListener('resize', positionVeil);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(positionVeil);
+    }
+    // fallback re-check shortly after load in case web fonts swap in late
+    window.addEventListener('load', function(){ setTimeout(positionVeil, 150); });
+
+    veil.addEventListener('click', function(){
+      stage.classList.add('open');
+    });
+
+    if (window.matchMedia('(hover: none)').matches) {
+      var cards = document.querySelectorAll('.linkcard');
+      cards.forEach(function(card){
+        card.addEventListener('click', function(e){
+          if (!card.classList.contains('popped')) {
+            e.preventDefault();
+            cards.forEach(function(c){ c.classList.remove('popped'); });
+            card.classList.add('popped');
+          }
+        });
+      });
+      document.addEventListener('click', function(e){
+        if (!e.target.closest('.linkcard')) {
+          cards.forEach(function(c){ c.classList.remove('popped'); });
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>
