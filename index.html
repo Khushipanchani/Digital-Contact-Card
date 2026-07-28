@@ -16,7 +16,6 @@
     --tan:#C6A177;
     --rose:#C99BA0;
     --line:#E4D3B8;
-    --cream:#F7EFE1;
   }
   *{box-sizing:border-box;}
   html,body{height:100%;}
@@ -57,13 +56,13 @@
       0 30px 60px -20px rgba(0,0,0,0.55),
       0 0 0 1px rgba(198,161,119,0.10),
       0 0 80px -10px rgba(198,161,119,0.20);
-    padding:40px 32px 34px;
+    padding:40px 32px 30px;
     z-index:1;
     transform:translateY(0);
     transition:transform .6s cubic-bezier(.22,1,.36,1), box-shadow .6s ease;
-    overflow:visible;
   }
 
+  /* monogram badge, echoing the circular logo-mark accent */
   .badge{
     position:absolute;
     top:22px;
@@ -81,6 +80,7 @@
     letter-spacing:0.02em;
   }
 
+  /* lanyard notch */
   .notch{
     position:absolute;
     top:-1px;
@@ -138,7 +138,7 @@
     display:flex;
     align-items:center;
     gap:10px;
-    margin:0 0 6px;
+    margin:0 0 22px;
   }
   .divider::before, .divider::after{
     content:"";
@@ -154,113 +154,87 @@
     text-transform:uppercase;
   }
 
-  /* ---------------- credit-card stack ---------------- */
-  .stack{
-    position:relative;
-    margin-top:38px;
-    /* height = tallest resting offset + one card height, set by JS-free CSS via padding trick below */
-    padding-bottom:264px;
-  }
-
-  .linkcard{
-    position:absolute;
-    left:0;
-    right:0;
-    top:0;
-    aspect-ratio:1.586 / 1;
-    border-radius:16px;
-    padding:18px 20px;
+  .fields{
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
-    text-decoration:none;
-    overflow:hidden;
-    transform-origin:50% 100%;
-    box-shadow:
-      0 10px 18px -10px rgba(51,45,38,0.35),
-      0 2px 4px -1px rgba(51,45,38,0.22);
-    transition:transform .5s cubic-bezier(.22,1,.36,1), box-shadow .5s cubic-bezier(.22,1,.36,1);
-  }
-  .linkcard::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(115deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0) 28%, rgba(255,255,255,0) 72%, rgba(255,255,255,0.10) 100%);
-    pointer-events:none;
+    gap:10px;
   }
 
-  .linkcard:nth-child(1){ top:0px;   transform:rotate(-2deg); z-index:3; }
-  .linkcard:nth-child(2){ top:34px;  transform:rotate(1.5deg); z-index:2; }
-  .linkcard:nth-child(3){ top:68px;  transform:rotate(3.5deg); z-index:1; }
-
-  .linkcard:hover,
-  .linkcard.popped{
-    transform:translateY(-46px) rotate(0deg) scale(1.045) !important;
-    z-index:10 !important;
-    box-shadow:
-      0 26px 34px -14px rgba(51,45,38,0.45),
-      0 8px 14px -6px rgba(51,45,38,0.30);
-  }
-
-  .lc-resume{ background:linear-gradient(135deg, #3E3830, #221D18); color:var(--cream); }
-  .lc-email{ background:linear-gradient(135deg, #F7EFE1, #E2CDA6); color:var(--ink); }
-  .lc-linkedin{ background:linear-gradient(135deg, #D2A8AD, #B37E85); color:var(--cream); }
-
-  .lc-top{
+  .field{
     display:flex;
-    align-items:flex-start;
-    justify-content:flex-end;
+    align-items:center;
+    gap:14px;
+    padding:13px 14px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    text-decoration:none;
+    color:var(--ink);
+    background:var(--card);
+    position:relative;
+    z-index:1;
+    transition:border-color .28s cubic-bezier(.22,1,.36,1), background .28s ease, transform .34s cubic-bezier(.22,1,.36,1), box-shadow .34s cubic-bezier(.22,1,.36,1);
   }
+  .field:hover,
+  .field.popped{
+    border-color:var(--rose);
+    background:#FBF5EC;
+    transform:translateY(-6px) scale(1.035);
+    box-shadow:
+      0 14px 22px -10px rgba(51,45,38,0.35),
+      0 4px 8px -4px rgba(51,45,38,0.20);
+    z-index:2;
+  }
+  .field:active{ transform:translateY(-2px) scale(1.01); }
 
-  .lc-icon{
-    width:22px;
-    height:22px;
-    opacity:0.9;
+  .field .mark{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:20px;
+    height:20px;
+    color:var(--rose);
     flex-shrink:0;
   }
-  .lc-icon svg{ width:100%; height:100%; display:block; }
+  .field .mark svg{
+    width:18px;
+    height:18px;
+    display:block;
+  }
 
-  .lc-mid{
+  .field .text{
     display:flex;
     flex-direction:column;
-    gap:4px;
-  }
-  .lc-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9px;
-    letter-spacing:0.16em;
-    text-transform:uppercase;
-    opacity:0.65;
-  }
-  .lc-value{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:13.5px;
-    letter-spacing:0.01em;
-    font-weight:500;
-    line-height:1.35;
-    word-break:break-word;
+    gap:2px;
+    min-width:0;
   }
 
-  .lc-bottom{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-  }
-  .lc-name{
+  .field .label{
     font-family:'IBM Plex Mono', monospace;
-    font-size:9px;
+    font-size:9.5px;
     letter-spacing:0.12em;
+    color:var(--ink-soft);
     text-transform:uppercase;
-    opacity:0.75;
   }
-  .lc-arrow{
+
+  .field .value{
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .field .arrow{
+    margin-left:auto;
     font-family:'IBM Plex Mono', monospace;
+    color:var(--tan);
     font-size:13px;
-    opacity:0.85;
+    flex-shrink:0;
   }
 
   footer{
-    margin-top:12px;
+    margin-top:28px;
     padding-top:16px;
     border-top:1px dashed var(--line);
     text-align:center;
@@ -273,13 +247,16 @@
     text-transform:uppercase;
   }
 
+  /* ---- wallet veil: covers the lower part of the card at rest,
+     matches the page background so the card reads as tucked into
+     it, and slides away to reveal the card content ---- */
   .veil{
     position:absolute;
     left:0;
     right:0;
-    top:190px;
     bottom:0;
-    z-index:5;
+    height:64%;
+    z-index:2;
     background:var(--bg-dark);
     border-radius:0 0 22px 22px;
     display:flex;
@@ -324,14 +301,11 @@
   }
 
   @media (hover:hover){
-    .stage:hover .card{
-      transform:translateY(-22px);
-      box-shadow:
-        0 1px 1px rgba(0,0,0,0.15),
-        0 40px 70px -18px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(198,161,119,0.10),
-        0 0 90px -6px rgba(198,161,119,0.28);
-    }
+    .stage:hover .card{ transform:translateY(-22px); box-shadow:
+      0 1px 1px rgba(0,0,0,0.15),
+      0 40px 70px -18px rgba(0,0,0,0.6),
+      0 0 0 1px rgba(198,161,119,0.10),
+      0 0 90px -6px rgba(198,161,119,0.28); }
     .stage:hover .veil{ transform:translateY(100%); opacity:0; }
   }
   .stage.open .card{ transform:translateY(-22px); }
@@ -339,7 +313,7 @@
 
   @media (prefers-reduced-motion: reduce){
     .stage{ animation:none; }
-    .card, .veil, .linkcard{ transition:none; }
+    .card, .veil{ transition:none; }
     .veil .chevron{ animation:none; }
   }
 </style>
@@ -350,74 +324,57 @@
     <div class="card">
       <div class="notch"></div>
       <div class="badge">KP</div>
-      <div class="identity">
-        <div class="eyebrow">Digital Contact Card</div>
-        <h1>Khushi Panchani</h1>
-        <p class="tagline">Computer Science Student<br>North Carolina State University</p>
-      </div>
+      <div class="eyebrow">Digital Contact Card</div>
+      <h1>Khushi Panchani</h1>
+      <p class="tagline">Computer Science Student<br>North Carolina State University</p>
 
       <div class="divider"><span>Connect</span></div>
 
-      <div class="stack">
-        <a class="linkcard lc-resume" href="Khushi_Panchani_Resume.pdf" target="_blank" rel="noopener">
-          <div class="lc-top">
-            <span class="lc-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M7 2.75h7.2L18 6.55V21a.75.75 0 0 1-.75.75H7A.75.75 0 0 1 6.25 21V3.5A.75.75 0 0 1 7 2.75Z"/>
-                <path d="M14.2 2.75V6.5a.5.5 0 0 0 .5.5h3.3"/>
-                <path d="M9 12h6M9 15.3h6M9 8.7h2.5"/>
-              </svg>
-            </span>
-          </div>
-          <div class="lc-mid">
-            <span class="lc-label">Resume</span>
-            <span class="lc-value">View / Download PDF</span>
-          </div>
-          <div class="lc-bottom">
-            <span class="lc-name">Khushi Panchani</span>
-            <span class="lc-arrow">&#8594;</span>
-          </div>
+      <div class="fields">
+        <a class="field" href="Khushi_Panchani_Resume.pdf" target="_blank" rel="noopener">
+          <span class="mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M7 2.75h7.2L18 6.55V21a.75.75 0 0 1-.75.75H7A.75.75 0 0 1 6.25 21V3.5A.75.75 0 0 1 7 2.75Z"/>
+              <path d="M14.2 2.75V6.5a.5.5 0 0 0 .5.5h3.3"/>
+              <path d="M9 12h6M9 15.3h6M9 8.7h2.5"/>
+            </svg>
+          </span>
+          <span class="text">
+            <span class="label">Resume</span>
+            <span class="value">View / Download PDF</span>
+          </span>
+          <span class="arrow">&#8594;</span>
         </a>
 
-        <a class="linkcard lc-email" href="mailto:Khushi.panchani47@gmail.com">
-          <div class="lc-top">
-            <span class="lc-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2.75" y="5.25" width="18.5" height="13.5" rx="1.5"/>
-                <path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>
-              </svg>
-            </span>
-          </div>
-          <div class="lc-mid">
-            <span class="lc-label">Email</span>
-            <span class="lc-value">Khushi.panchani47@gmail.com</span>
-          </div>
-          <div class="lc-bottom">
-            <span class="lc-name">Khushi Panchani</span>
-            <span class="lc-arrow">&#8594;</span>
-          </div>
+        <a class="field" href="mailto:Khushi.panchani47@gmail.com">
+          <span class="mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.75" y="5.25" width="18.5" height="13.5" rx="1.5"/>
+              <path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>
+            </svg>
+          </span>
+          <span class="text">
+            <span class="label">Email</span>
+            <span class="value">Khushi.panchani47@gmail.com</span>
+          </span>
+          <span class="arrow">&#8594;</span>
         </a>
 
-        <a class="linkcard lc-linkedin" href="https://www.linkedin.com/in/kpancha/" target="_blank" rel="noopener">
-          <div class="lc-top">
-            <span class="lc-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="4"/>
-                <circle cx="8.3" cy="8.3" r="0.9" fill="currentColor" stroke="none"/>
-                <path d="M8.3 11v6.2"/>
-                <path d="M12.6 17.2V13c0-1.1.8-2 2-2s2 .9 2 2v4.2"/>
-                <path d="M12.6 13.2v4"/>
-              </svg>
-            </span>
-          </div>
-          <div class="lc-mid">
-            <span class="lc-label">LinkedIn</span>
-            <span class="lc-value">linkedin.com/in/kpancha</span>
-          </div>
-          <div class="lc-bottom">
-            <span class="lc-name">Khushi Panchani</span>
-            <span class="lc-arrow">&#8594;</span>
-          </div>
+        <a class="field" href="https://www.linkedin.com/in/kpancha/" target="_blank" rel="noopener">
+          <span class="mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2.75" y="2.75" width="18.5" height="18.5" rx="4"/>
+              <circle cx="8.3" cy="8.3" r="0.9" fill="currentColor" stroke="none"/>
+              <path d="M8.3 11v6.2"/>
+              <path d="M12.6 17.2V13c0-1.1.8-2 2-2s2 .9 2 2v4.2"/>
+              <path d="M12.6 13.2v4"/>
+            </svg>
+          </span>
+          <span class="text">
+            <span class="label">LinkedIn</span>
+            <span class="value">linkedin.com/in/kpancha</span>
+          </span>
+          <span class="arrow">&#8594;</span>
         </a>
       </div>
 
@@ -436,37 +393,27 @@
   <script>
     var stage = document.getElementById('stage');
     var veil = document.getElementById('veil');
-    var identity = document.querySelector('.identity');
-
-    function positionVeil(){
-      veil.style.top = identity.offsetTop + identity.offsetHeight + 'px';
-    }
-    positionVeil();
-    window.addEventListener('resize', positionVeil);
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(positionVeil);
-    }
-    // fallback re-check shortly after load in case web fonts swap in late
-    window.addEventListener('load', function(){ setTimeout(positionVeil, 150); });
-
     veil.addEventListener('click', function(){
       stage.classList.add('open');
     });
 
+    // On touch devices there's no hover, so mimic it: first tap on a
+    // link-card pops it up; a second tap (now that it's popped) follows
+    // the link normally; tapping anywhere outside settles it back down.
     if (window.matchMedia('(hover: none)').matches) {
-      var cards = document.querySelectorAll('.linkcard');
-      cards.forEach(function(card){
-        card.addEventListener('click', function(e){
-          if (!card.classList.contains('popped')) {
+      var fields = document.querySelectorAll('.field');
+      fields.forEach(function(field){
+        field.addEventListener('click', function(e){
+          if (!field.classList.contains('popped')) {
             e.preventDefault();
-            cards.forEach(function(c){ c.classList.remove('popped'); });
-            card.classList.add('popped');
+            fields.forEach(function(f){ f.classList.remove('popped'); });
+            field.classList.add('popped');
           }
         });
       });
       document.addEventListener('click', function(e){
-        if (!e.target.closest('.linkcard')) {
-          cards.forEach(function(c){ c.classList.remove('popped'); });
+        if (!e.target.closest('.field')) {
+          fields.forEach(function(f){ f.classList.remove('popped'); });
         }
       });
     }
